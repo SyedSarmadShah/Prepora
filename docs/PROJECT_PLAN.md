@@ -451,6 +451,73 @@ The MVP should focus on validating core learning value and retention.
 - Premium entitlement management
 - Question reporting
 - Basic notes
+
+## Final Business Decisions
+
+### Pricing
+
+Free Plan:
+- Price: Rs.0 PKR/month
+- Includes limited MCQ practice, sample mock tests, basic analytics, and limited notes.
+
+Premium Plan:
+- Price: Rs.499 PKR/month
+- Monthly recurring subscription.
+- Includes unlimited MCQs, premium mock tests, advanced analytics, and premium notes.
+
+Currency:
+- PKR
+
+
+### Refund Policy
+
+Refunds are manually reviewed.
+
+Refund eligibility:
+- Payment deducted but premium access not activated.
+- Duplicate payments.
+- Verified technical billing failures.
+
+Refund window:
+- 7 days after payment.
+
+Non-refundable:
+- User changed mind.
+- User consumed premium content.
+- Accidental purchase.
+
+
+### Free Trial Policy
+
+Free trials are disabled for MVP.
+
+The platform will use a permanent free plan with limited features.
+
+Free trials may be introduced later after product validation.
+
+
+### Past Due Grace Period
+
+Default grace period:
+- 7 days.
+
+During grace period:
+- Premium access remains active.
+- Payment retries may occur.
+
+After grace period:
+- Subscription becomes EXPIRED if payment is not recovered.
+
+Content Governance Policy
+
+Every question must have:
+- Creator
+- Reviewer
+- Approval status
+- Last reviewed date
+- Source/reference
+- Version history
+
 ## Future Features
 
 - AI-assisted study recommendations
