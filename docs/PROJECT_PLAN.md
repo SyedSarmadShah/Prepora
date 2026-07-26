@@ -120,9 +120,12 @@ Expired, canceled, or otherwise inactive subscription
 - Initial plans are Free and Premium.
 - Premium subscription duration is monthly.
 - Renewal is monthly recurring through Safepay recurring billing.
-- Pricing is configurable plan data with amount and currency fields; final pricing is not hardcoded yet.
+- Pricing is stored as configurable plan data with amount and currency fields.
+- The initial Premium plan price is Rs.499 PKR per month.
+- The Free plan price is Rs.0 PKR per month.
+- Pricing must not be hardcoded into application logic and should be managed as plan configuration data.
 - Initial launch currency is PKR.
-- Safepay supports monthly subscriptions, automatic recurring billing, checkout/payment pages, webhooks, sandbox testing, SDKs, multiple subscription plans, free trials, security features, no monthly platform fee, and payment-based pricing.
+Safepay capabilities relevant to Prepora include monthly subscriptions, automatic recurring billing, checkout/payment pages, webhooks, sandbox testing, SDKs, multiple subscription plans, and required payment security features. Safepay capabilities such as free trials may be available but are intentionally disabled for the Prepora MVP.
 - Free trials remain configurable and may be enabled later if product policy allows.
 - Safepay has no monthly platform fee based on confirmed provider information, and charges apply when payments are received.
 - Users can cancel future renewal, and premium access continues until the end of the already-paid subscription period.
@@ -250,7 +253,7 @@ FR-14 The system shall support notifications or reminders for test schedules, up
 
 ### Content and Assessment
 
-FR-15 The system shall allow admins to create and manage exam tracks, exams, subjects, topics, questions, answers, explanations, notes, and lecture metadata for future phases.
+FR-15 The system shall allow admins to create and manage exam tracks, exams, subjects, topics, questions, answers, explanations, notes.
 
 FR-16 The system shall support tagging content by exam track, subject, difficulty, year, and topic.
 
@@ -536,6 +539,137 @@ The MVP should focus on validating core learning value and retention.
 - Question reporting
 - Basic notes
 
+## MVP Scope Boundary and Prioritization
+
+The MVP is intended to validate Prepora's core learning value, content quality, user engagement, and subscription monetization.
+
+To prevent uncontrolled scope expansion, MVP requirements are divided into three implementation priorities.
+
+### P0 — Required for MVP Launch
+
+The following capabilities are required for the initial production launch:
+
+#### Identity and Access
+
+- Student registration and login.
+- Password reset and account management.
+- Role-based authorization.
+- Free and Premium access control through subscriptions and entitlements.
+
+#### Exam Preparation
+
+- Exam Track selection.
+- Exam, subject, and topic taxonomy.
+- MCQ practice.
+- Question filtering by relevant taxonomy and difficulty.
+- Timed mock tests.
+- Question randomization where required.
+- Answer review and explanations where available.
+- Basic attempt history.
+
+#### Content Operations
+
+- Admin content management.
+- Question creation and editing.
+- Content review and approval workflow.
+- Subject matter expert review where required.
+- Question reporting by students.
+- Question correction and version history.
+- Content audit history.
+
+#### Progress and Analytics
+
+- Basic user progress tracking.
+- Accuracy and score tracking.
+- Attempt history.
+- Basic weak-topic or performance insights.
+
+#### Monetization
+
+- Free Plan.
+- Premium Plan.
+- Safepay checkout.
+- Monthly Premium subscription.
+- Automatic recurring renewal.
+- Manual renewal.
+- Subscription cancellation.
+- Subscription expiration handling.
+- Failed renewal handling.
+- Payment transaction records.
+- Safepay webhook processing.
+- HMAC verification.
+- Idempotent webhook processing.
+- Subscription and entitlement updates.
+
+#### Operational Foundations
+
+- Production deployment.
+- HTTPS.
+- Database backups.
+- Application logging.
+- Error monitoring.
+- Basic rate limiting.
+- Basic security monitoring.
+- Development, staging, and production environments.
+
+---
+
+### P1 — Important but Not Required for Initial Launch
+
+The following features should be implemented after the core MVP is stable or only if development capacity permits:
+
+- Advanced analytics dashboards.
+- Advanced weak-topic recommendations.
+- Notifications and reminders.
+- Advanced notes functionality.
+- Advanced admin reporting.
+- Analytics exports.
+- Advanced content quality dashboards.
+- Advanced payment reconciliation.
+- Advanced operational dashboards.
+- Additional Premium plans.
+- Enhanced user engagement features.
+
+P1 features must not delay the initial launch of the core learning and monetization experience.
+
+---
+
+### P2 — Future Product Expansion
+
+The following capabilities are intentionally deferred to future phases:
+
+- Leaderboards and competitive ranking systems.
+- Advanced AI personalization.
+- AI-assisted content generation.
+- Adaptive testing.
+- Native mobile applications.
+- Offline-first learning.
+- Public discussion forums.
+- Peer-to-peer study groups.
+- Live tutoring.
+- Institutional multi-tenancy.
+- Additional payment providers.
+- Referral and affiliate programs.
+- Advanced internationalization and regional language support.
+
+These features may be introduced after sufficient product validation, user growth, and operational maturity.
+
+---
+
+### MVP Scope Rule
+
+A feature should be included in the MVP only if it directly supports at least one of the following:
+
+1. Core exam preparation.
+2. Content quality and trust.
+3. Basic learning progress measurement.
+4. Premium subscription monetization.
+5. Security, reliability, or operational readiness required for production.
+
+Features that do not directly support these objectives should normally be classified as P1 or P2.
+
+The MVP should prioritize a complete and reliable core experience over a large number of partially implemented features.
+
 ## MVP Non-Goals
 
 The following features are intentionally excluded from the MVP to maintain a focused and achievable initial product scope.
@@ -673,37 +807,59 @@ Every question must have:
 
 ### Phase 1: Foundation
 
-- Define taxonomy for exam tracks, subjects, topics, and difficulty.
-- Design learner journey and content model.
-- Build core test-taking and content consumption experience.
+- Finalize product requirements and information architecture.
+- Define exam taxonomy.
+- Define content governance workflows.
+- Define database and API architecture.
+- Establish authentication and authorization foundations.
+- Establish deployment and environment strategy.
 
-### Phase 2: Learning Core
+### Phase 2: MVP Learning Core
 
-- Launch MCQ practice and mock tests.
-- Add explanations and notes.
-- Introduce basic progress tracking.
+- Launch student registration and authentication.
+- Launch exam track browsing.
+- Launch MCQ practice.
+- Launch timed mock tests.
+- Launch explanations and basic notes.
+- Launch attempt history and basic progress tracking.
+- Launch admin content management.
+- Launch content review, approval, reporting, and versioning workflows.
 
-### Phase 3: Engagement
+### Phase 3: MVP Monetization and Production Launch
+
+- Launch Free and Premium plans.
+- Integrate Safepay checkout.
+- Implement automatic recurring renewal.
+- Implement manual renewal.
+- Implement subscription lifecycle management.
+- Implement webhook verification and idempotent processing.
+- Implement entitlement-based Premium access.
+- Complete security, QA, monitoring, backups, and production deployment.
+
+### Phase 4: Post-MVP Optimization
 
 - Improve analytics and study recommendations.
 - Introduce notifications and reminders.
+- Improve content quality dashboards.
+- Improve payment reconciliation and operational tooling.
+- Optimize performance and scalability.
+- Improve Premium conversion and retention.
 
-### Phase 4: Web Platform Scale and Monetization
+### Phase 5: Competitive and Intelligent Learning
 
-- Optimize the web platform for growing user traffic and exam-season demand.
-- Improve scalability, performance, caching, database efficiency, and operational reliability.
-- Introduce advanced analytics and cohort insights.
-- Optimize monetization, billing, conversion, and entitlement management.
-- Introduce additional subscription plans if validated by user demand.
-- Improve payment reliability and subscription renewal flows.
-- Improve Premium conversion, retention, and subscription renewal rates.
-- Continue expanding and improving the web platform based on user feedback and usage data.
+- Introduce leaderboard and competitive ranking features.
+- Introduce adaptive testing.
+- Introduce AI-assisted study recommendations.
+- Introduce advanced personalization.
 
-### Phase 5: Ecosystem Expansion
+### Phase 6: Ecosystem Expansion
 
-- Add adaptive learning and AI-assisted guidance.
+- Launch mobile applications.
+- Add offline learning capabilities.
+- Add discussion and peer study features.
 - Launch partner and institutional features.
-- Expand into broader competitive exam coverage.
+- Add additional payment providers if required.
+- Expand internationalization and regional language support.
 
 ## Milestones
 
