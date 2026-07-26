@@ -2,7 +2,7 @@
 
 ## Product Overview
 
-Prepora is a production-ready online learning platform for students preparing for Pakistan Armed Forces initial tests and related competitive examinations. The platform will support structured test preparation across Army, Air Force, Navy, ASF, ISSB, Police, FPSC, PMA, and allied exam tracks through practice MCQs, mock tests, notes, analytics, and ranking, with lectures reserved for future phases.
+Prepora is a production-ready online learning platform for students preparing for Pakistan Armed Forces initial tests and related competitive examinations. The platform will support structured test preparation across Army, Air Force, Navy, ASF, ISSB, Police, FPSC, PMA, and allied exam tracks through practice MCQs, mock tests, notes, analytics, and with lectures reserved for future phases.
 
 ### Product Vision
 
@@ -12,7 +12,6 @@ To become the most trusted digital preparation platform for defense and competit
 
 - Help students prepare efficiently with exam-specific content and assessments.
 - Provide measurable learning progress through analytics and performance insights.
-- Enable competitive motivation through rankings and peer comparison.
 - Support scalable content delivery across web and future mobile channels.
 - Maintain strong security, reliability, and operational readiness from day one.
 
@@ -23,7 +22,6 @@ In scope:
 - MCQ practice by exam track, subject, topic, and difficulty.
 - Timed mock tests and exam simulations.
 - User progress tracking and analytics.
-- Leaderboards and ranking comparisons.
 - Free and premium access control.
 - Subscription management and payment checkout.
 - Admin tools for content, exam tracks, users, and reporting.
@@ -57,7 +55,6 @@ This SRS defines the product, functional behavior, quality attributes, operation
 - MCQ: Multiple Choice Question
 - Mock Test: Timed exam simulation modeled after a real test pattern
 - Analytics: Performance metrics such as accuracy, speed, weak topics, and score trends
-- Leaderboard: Ranked comparison of users or cohorts based on performance criteria
 - Exam Track: A first-class exam preparation path such as Army, Air Force, Navy, ASF, ISSB, Police, FPSC, or PMA
 - Exam hierarchy: Exam Track -> Exam -> Subject -> Topic -> Question
 
@@ -208,7 +205,6 @@ Prepora is a cloud-hosted educational SaaS platform with a content management la
 - Structured preparation by exam type and subject
 - Clear progress and weak-area visibility
 - Reliable test timing and scoring
-- Competitive ranking and peer benchmarking
 - Clear free and premium access boundaries
 - Reliable payment checkout and subscription activation through Safepay
 
@@ -340,7 +336,7 @@ FR-28 The system shall support Safepay sandbox testing for checkout, webhook, an
 
 - Practice MCQs and mock tests.
 - View available learning content and notes.
-- Track progress and rankings.
+- Track progress.
 - Save questions and review history.
 
 ### Premium Student
@@ -379,7 +375,6 @@ FR-28 The system shall support Safepay sandbox testing for checkout, webhook, an
 - As a student, I want timed mock tests so that I can practice under real exam pressure.
 - As a student, I want instant scoring and explanations so that I can learn from mistakes quickly.
 - As a student, I want to see progress trends so that I know whether I am improving.
-- As a student, I want to compare my performance with others so that I stay motivated.
 - As a student, I want to read notes so that I can revise important concepts efficiently.
 - As an admin, I want to publish new questions safely so that content quality remains high.
 - As an admin, I want to see usage analytics so that I can understand what students need most.
@@ -396,7 +391,7 @@ FR-28 The system shall support Safepay sandbox testing for checkout, webhook, an
 - Answer explanations
 - Progress dashboard
 - Analytics and weak-topic insights
-- Leaderboards and rankings, notes library
+- Notes library
 - Favorites and revisit lists
 - Subscription management and payment history
 - Automatic and manual subscription renewal
@@ -409,6 +404,95 @@ FR-28 The system shall support Safepay sandbox testing for checkout, webhook, an
 - Explanations and references
 - Publish and review workflow
 - Question report review and resolution
+
+## Content Source and Question Quality Governance
+
+Prepora's credibility depends heavily on the accuracy, relevance, and quality of its questions and explanations. Content must therefore follow a controlled governance process.
+
+### Content Sources
+
+Questions and explanations should be based on reliable and traceable sources where applicable, including:
+
+- Official examination patterns and syllabi
+- Official or publicly available examination information
+- Reputable textbooks
+- Verified preparation resources
+- Historical examination patterns
+- Subject matter expert knowledge
+
+Each question should support a source reference or content justification where appropriate.
+
+### Content Review Lifecycle
+
+Content should follow a controlled lifecycle:
+
+DRAFT → IN_REVIEW → APPROVED → PUBLISHED
+
+Additional states may include:
+
+- REJECTED
+- ARCHIVED
+
+### Review Requirements
+
+- Content creators may create and edit draft questions.
+- Questions must pass review before publication.
+- Subject matter experts should validate the accuracy of questions and explanations where required.
+- A user who creates a question should not be the sole person responsible for approving its publication.
+- Published content should be protected from uncontrolled modification.
+
+### Question Quality Requirements
+
+Questions should be reviewed for:
+
+- Correctness of the answer
+- Clarity of wording
+- Quality of distractor options
+- Relevance to the target exam
+- Appropriate difficulty
+- Duplicate or near-duplicate content
+- Typographical errors
+- Outdated information
+- Ambiguous interpretation
+- Quality and accuracy of explanations
+
+### Content Versioning
+
+Published content should be versioned.
+
+When a published question requires a substantial correction:
+
+- The previous version should remain available for historical integrity.
+- A new version should be created.
+- Historical test attempts should retain the question version used at the time of the attempt.
+- Changes should be recorded in the audit history.
+
+### Question Reporting
+
+Students should be able to report:
+
+- Incorrect answers
+- Incorrect explanations
+- Ambiguous questions
+- Typographical errors
+- Outdated information
+- Technical issues
+
+Reports should be trackable by administrators and content reviewers until resolution.
+
+### Content Auditability
+
+The system should maintain an audit trail for:
+
+- Question creation
+- Question edits
+- Review decisions
+- Approval actions
+- Publication
+- Archiving
+- Report resolution
+
+Content quality governance should prioritize accuracy and student trust over rapid publishing.
 
 ### Platform Features
 
@@ -451,6 +535,60 @@ The MVP should focus on validating core learning value and retention.
 - Premium entitlement management
 - Question reporting
 - Basic notes
+
+## MVP Non-Goals
+
+The following features are intentionally excluded from the MVP to maintain a focused and achievable initial product scope.
+
+### Native Mobile Applications
+
+Native Android and iOS applications are not part of the MVP.
+
+The initial product will focus exclusively on delivering a high-quality responsive web platform. Mobile applications may be considered in a much later phase after the web platform has achieved sufficient product-market validation and scale.
+
+### Leaderboard Ranking System
+
+Advanced leaderboard ranking and competitive scoring systems are not part of the initial MVP.
+
+The MVP may collect the data required for future ranking features, but complex ranking algorithms, competitive scoring formulas, speed bonuses, and anti-abuse leaderboard systems will be introduced only after the core learning product has been validated.
+
+### AI-Generated Exam Content
+
+The MVP will not automatically generate questions or exam content using AI without human review.
+
+Any future AI-assisted content generation must include appropriate editorial and subject matter expert validation.
+
+### Live Tutoring
+
+Live tutoring marketplaces, one-to-one tutoring, and live video teaching are not part of the MVP.
+
+### Public Discussion Forums
+
+Public student forums, peer-to-peer chat, and social discussion features are not part of the MVP.
+
+### Offline-First Learning
+
+Full offline-first functionality and downloadable offline study packs are not part of the MVP.
+
+### Institutional Multi-Tenancy
+
+Dedicated portals for academies, institutions, or coaching centers are not part of the MVP.
+
+### Advanced AI Personalization
+
+Adaptive learning systems, AI study companions, and advanced personalized learning recommendations are future capabilities.
+
+### Multiple Payment Providers
+
+Safepay is the initial payment provider for the MVP.
+
+Additional payment providers may be introduced later if business requirements, user demand, or geographic expansion justify them.
+
+### Automated Refund Operations
+
+Refund decisions and refund processing may initially require administrator or payment-provider workflows.
+
+A fully automated refund management system is not required for the MVP.
 
 ## Final Business Decisions
 
@@ -527,7 +665,6 @@ Every question must have:
 - Referral and affiliate programs
 - Discussion forums and peer study groups
 - Personalized revision scheduler
-- Advanced leaderboards by city, batch, or institution
 - Certificate or readiness scorecards
 - Future internationalization and regional language support
 - Partnerships with academies and institutions
@@ -597,7 +734,7 @@ The following is a realistic high-level timeline for a production-quality MVP.
 
 ### Weeks 7-10
 
-- Implement mock tests, scoring, explanations, analytics basics, Safepay checkout integration, automatic and manual renewal flows, subscription activation, payment status updates, and webhook-driven subscription updates.
+- Implement mock tests, explanations, analytics basics, Safepay checkout integration, automatic and manual renewal flows, subscription activation, payment status updates, and webhook-driven subscription updates.
 - Add notes consumption flows.
 - Build admin tools for content and user management.
 
@@ -625,48 +762,202 @@ The following is a realistic high-level timeline for a production-quality MVP.
 
 ## Recommended Technology Stack
 
-The stack should optimize for scalability, maintainability, fast development, and strong operational control.
+The technology stack is selected to support rapid MVP development, maintainability, strong backend capabilities, and future scalability without introducing unnecessary microservice complexity.
 
 ### Frontend
 
-- Modern component-based web application framework
-- Responsive design system optimized for mobile-first learning
-- Strong client-side state management for test workflows and analytics views
+- **Framework:** Next.js
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui
+- **Data Fetching and Server State:** TanStack Query
+- **Forms:** React Hook Form
+- **Validation:** Zod
+
+The frontend should provide a responsive, mobile-first web experience. A native mobile application is not part of the MVP and should not influence the early architecture unnecessarily.
 
 ### Backend
 
-- API-first backend architecture
-- Modular services for auth, content, assessment, analytics, and notifications
-- Background processing for scoring, reporting, and scheduled tasks
+- **Framework:** Django
+- **API Framework:** Django REST Framework
+- **Language:** Python
 
-### Data Layer
+The backend should use a modular architecture with clear domain boundaries for:
 
-- Relational database for users, content, attempts, and roles
-- Separate records for subscriptions, payment transactions, webhook events, and entitlements
-- Support one-to-many relationship from subscription records to payment transaction records
-- Do not rely on a single payment record as proof of active Premium access
-- Preserve Safepay fields where relevant: Safepay event token, Safepay tracker, Safepay subscription ID, Safepay plan ID, Safepay transaction ID, payment amount, currency, payment status, subscription status, current billing cycle, current period start date, current period end date, last paid date, and provider metadata
-- Object storage for lecture media and attachments
-- Caching layer for performance-sensitive reads
+- Authentication and user management
+- Exam taxonomy and content
+- MCQ practice
+- Mock tests and assessment
+- Analytics
+- Subscriptions and entitlements
+- Payments
+- Administration
 
-### Infrastructure
+The backend should initially be implemented as a modular monolith rather than distributed microservices. Domain boundaries should remain clear so that individual components can be extracted or scaled independently in the future if required.
 
-- Cloud hosting with autoscaling
-- CDN for static assets and media delivery
-- Observability stack with logs, metrics, and tracing
+### Database
 
-### Operational Tooling
+- **Primary Database:** PostgreSQL
 
-- CI/CD pipelines
-- Infrastructure as code
-- Centralized secrets management
-- Automated backups and environment segregation
+PostgreSQL is the source of truth for:
 
-### Stack Selection Guidance
+- Users and roles
+- Exam tracks, exams, subjects, and topics
+- Questions and answers
+- Explanations and notes
+- Test attempts and responses
+- Subscription records
+- Payment transactions
+- Entitlements
+- Audit records
 
-- Choose technologies that the team can operate well for several years.
-- Prioritize ecosystem maturity, hiring availability, and long-term maintainability.
-- Avoid over-engineering early; introduce service decomposition only when scale demands it.
+The detailed database schema and entity relationships are defined separately in:
+
+`docs/DATABASE_PLAN.md`
+
+### Caching
+
+- **Cache:** Redis
+
+Redis may be used for:
+
+- Caching frequently accessed content
+- Rate limiting
+- Temporary session-related data where appropriate
+- Background task coordination
+- Performance optimization for high-read workloads
+
+Redis must not become the primary source of truth for transactional data.
+
+### Background Processing
+
+- **Task Queue:** Celery
+- **Message Broker / Result Backend:** Redis where appropriate
+
+Background processing should be used for non-blocking or scheduled operations such as:
+
+- Notifications
+- Analytics aggregation
+- Scheduled maintenance tasks
+- Payment reconciliation tasks
+- Retryable operational workflows
+
+Critical payment and subscription state transitions must remain reliable and auditable in PostgreSQL.
+
+### Authentication and Authorization
+
+- JWT-based authentication
+- Secure refresh-token strategy
+- Role-based access control
+- Server-side authorization for all protected resources
+
+Authentication and authorization must be implemented in the backend and must not rely solely on frontend route protection.
+
+### Payments
+
+- **Initial Payment Provider:** Safepay
+
+Safepay integration must be isolated behind a provider-agnostic payment service or adapter boundary.
+
+The core application should not directly depend on Safepay-specific logic outside the payment integration layer.
+
+The payment architecture must support:
+
+- Checkout initiation
+- Payment verification
+- Webhook processing
+- Payment transaction records
+- Subscription lifecycle updates
+- Automatic recurring renewal where supported
+- Manual renewal
+- Payment failure handling
+- Refund-related state handling
+- Idempotent event processing
+
+Safepay webhook events must be verified using the required security mechanism and processed through an idempotent webhook pipeline.
+
+### Object Storage
+
+- **Storage:** S3-compatible object storage
+
+Object storage may be used for:
+
+- Educational attachments
+- Future lecture media
+- Exported reports
+- Other large files
+
+Large files should not be stored directly in PostgreSQL.
+
+### Deployment
+
+The application should be deployed using a cloud provider such as:
+
+- Microsoft Azure
+- Or another suitable cloud provider
+
+The deployment architecture should support:
+
+- Separate development, staging, and production environments
+- Secure environment variables and secrets
+- Managed PostgreSQL where practical
+- Managed Redis where practical
+- HTTPS
+- Automated backups
+- Monitoring and logging
+
+### CI/CD
+
+- **CI/CD:** GitHub Actions
+
+The CI/CD pipeline should support:
+
+- Automated testing
+- Linting and formatting checks
+- Build validation
+- Deployment to staging
+- Production deployment with appropriate safeguards
+
+### Monitoring and Observability
+
+The platform should use centralized:
+
+- Application logs
+- Error tracking
+- Performance metrics
+- Health checks
+- Payment and webhook monitoring
+
+Payment failures, webhook failures, subscription activation failures, and background task failures should be observable and auditable.
+
+### Architectural Style
+
+The initial architecture should be a modular monolith.
+
+The system should avoid premature microservices while maintaining clear boundaries between:
+
+- Identity
+- Content
+- Assessment
+- Analytics
+- Subscriptions
+- Entitlements
+- Payments
+- Administration
+
+This provides a simpler MVP development and deployment model while preserving a path toward future scaling.
+
+
+### Detailed Architecture Documentation
+
+The detailed technical architecture is documented separately:
+
+- Database design: `docs/DATABASE_PLAN.md`
+- Backend architecture: `docs/BACKEND_ARCHITECTURE.md`
+- Frontend architecture: `docs/FRONTEND_ARCHITECTURE.md`
+- API design: `docs/API_DESIGN.md`
+
+These documents must remain consistent with the product requirements and business rules defined in this document.
 
 ## Security Requirements
 
@@ -741,7 +1032,6 @@ The stack should optimize for scalability, maintainability, fast development, an
 - Content engagement per exam category
 - Score improvement over time
 - Retention across 7, 30, and 90 days
-- Leaderboard participation rate
 - Support ticket volume and resolution time
 - Free-to-premium conversion rate
 - Subscription renewal rate
