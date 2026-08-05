@@ -1,0 +1,70 @@
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:16-alpine
+    container_name: prepora_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-prepora_db}
+      POSTGRES_USER: ${POSTGRES_USER:-prepora_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-prepora_secret_pass_123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-prepora_user} -d ${POSTGRES_DB:-prepora_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Django Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: prepora_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-prepora_db}
+      - DB_USER=${DB_USER:-prepora_user}
+      - DB_PASSWORD=${DB_PASSWORD:-prepora_secret_pass_123}
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-docker-compose-secret-key-1234567890}
+      - DEBUG=${DEBUG:-True}
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-config.settings.development}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,backend,frontend}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/admin/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
+  # React Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: prepora_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8000/api/v1}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5173/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
