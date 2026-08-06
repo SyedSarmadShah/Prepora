@@ -62,11 +62,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# Database Configuration (SQLite default for initial foundation setup)
+# Database Configuration (PostgreSQL running inside Docker)
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.getenv("DB_NAME", "prepora_db"),
+        "USER": os.getenv("DB_USER", "prepora_user"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "prepora_secret_pass_123"),
+        "HOST": os.getenv("DB_HOST", "postgres"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
