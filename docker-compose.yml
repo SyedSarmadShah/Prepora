@@ -40,6 +40,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    volumes:
+      - ./backend:/app
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/admin/ || exit 1"]
       interval: 30s
@@ -58,6 +60,9 @@ services:
       - "5173:5173"
     environment:
       - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8000/api/v1}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:5173/ || exit 1"]
       interval: 30s

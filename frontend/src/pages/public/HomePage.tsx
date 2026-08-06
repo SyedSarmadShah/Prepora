@@ -1,17 +1,12 @@
 import React from 'react';
 import { 
   Shield, 
-  CheckCircle, 
-  Terminal, 
   Layers, 
-  Cpu, 
-  Zap, 
-  Database, 
   Award, 
   BookOpen, 
-  Sparkles,
   ArrowRight
 } from 'lucide-react';
+import { BackendHealthStatus } from '../../components/feedback/BackendHealthStatus';
 
 export const HomePage: React.FC = () => {
   return (
@@ -26,7 +21,7 @@ export const HomePage: React.FC = () => {
           {/* Status Badge */}
           <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-400 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Phase 1 - Step 2: Frontend Foundation Active</span>
+            <span>Phase 1 - Step 5: Full Stack Verified</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-heading">
@@ -53,62 +48,9 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* System Runtime Status Card */}
-        <div id="system-status" className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800/80 pb-4 gap-4">
-            <div className="flex items-center space-x-3">
-              <div className="p-2.5 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400">
-                <Terminal className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white font-heading">Frontend Runtime Status</h3>
-                <p className="text-xs text-slate-400">Vite + React 19 + TypeScript + Tailwind CSS</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2 text-xs font-mono bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-emerald-400">
-              <CheckCircle className="h-4 w-4" />
-              <span>REACT_APP_READY</span>
-            </div>
-          </div>
-
-          {/* Module Verification Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="glass-card rounded-xl p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400">
-                <span>Infrastructure</span>
-                <Cpu className="h-4 w-4 text-brand-400" />
-              </div>
-              <p className="text-sm font-semibold text-white">Vite 6 + React 19</p>
-              <p className="text-[11px] text-slate-500">Strict TypeScript mode enabled</p>
-            </div>
-
-            <div className="glass-card rounded-xl p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400">
-                <span>Styling Engine</span>
-                <Sparkles className="h-4 w-4 text-indigo-400" />
-              </div>
-              <p className="text-sm font-semibold text-white">Tailwind CSS 3.4</p>
-              <p className="text-[11px] text-slate-500">Curated military color tokens</p>
-            </div>
-
-            <div className="glass-card rounded-xl p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400">
-                <span>Network Layer</span>
-                <Zap className="h-4 w-4 text-amber-400" />
-              </div>
-              <p className="text-sm font-semibold text-white">Axios Interceptors</p>
-              <p className="text-[11px] text-slate-500">RFC 7807 Error Envelope Ready</p>
-            </div>
-
-            <div className="glass-card rounded-xl p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400">
-                <span>State & Storage</span>
-                <Database className="h-4 w-4 text-purple-400" />
-              </div>
-              <p className="text-sm font-semibold text-white">Storage Service</p>
-              <p className="text-[11px] text-slate-500">Token persistence helpers</p>
-            </div>
-          </div>
+        {/* Full-Stack System Runtime Health Status Panel */}
+        <div id="system-status">
+          <BackendHealthStatus />
         </div>
 
         {/* Target Exam Tracks Overview */}
