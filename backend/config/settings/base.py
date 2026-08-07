@@ -29,7 +29,11 @@ INSTALLED_APPS = [
     "corsheaders",
     # Prepora Local Domain Apps
     "apps.common.apps.CommonConfig",
+    "apps.accounts.apps.AccountsConfig",
 ]
+
+AUTH_USER_MODEL = "accounts.User"
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

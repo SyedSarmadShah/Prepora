@@ -1,35 +1,69 @@
-.env
-# Node.js
-node_modules/
-**/node_modules/
-
-# Build output
-dist/
-build/
-
+# =========================
 # Python
+# =========================
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *.pyo
+*$py.class
 
+# =========================
 # Virtual environments
+# =========================
 venv/
 .venv/
 env/
 
+# =========================
 # Environment variables
+# =========================
 .env
 .env.local
 backend/.env
 frontend/.env
+!.env.example
 
+# =========================
+# Node.js
+# =========================
+node_modules/
+**/node_modules/
+
+# =========================
+# Build output
+# =========================
+dist/
+build/
+staticfiles/
+
+# =========================
 # IDE
+# =========================
 .vscode/
 .idea/
 
+# =========================
 # OS
+# =========================
 .DS_Store
 Thumbs.db
+Desktop.ini
 
+# =========================
 # Logs
+# =========================
 *.log
+
+# =========================
+# Testing
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Type checkers
+# =========================
+.mypy_cache/
+.ruff_cache/
+.pyre/
