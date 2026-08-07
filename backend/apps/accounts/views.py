@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
-from apps.accounts.serializers import UserRegistrationSerializer
+from apps.accounts.serializers import UserLoginSerializer, UserRegistrationSerializer
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -23,3 +23,18 @@ class UserRegistrationView(generics.CreateAPIView):
             status=status.HTTP_201_CREATED,
             headers=headers,
         )
+
+
+class UserLoginView(generics.GenericAPIView):
+    """
+    API view for user authentication / login.
+    Endpoint: POST /api/v1/auth/login/
+    """
+
+    serializer_class = UserLoginSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
