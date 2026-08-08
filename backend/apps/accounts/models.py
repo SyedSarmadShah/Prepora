@@ -79,6 +79,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.first_name if self.first_name else self.email
 
+    @property
+    def roles(self):
+        return Role.objects.filter(role_users__user=self)
+
+    def has_role(self, role_code):
+        return self.user_roles.filter(role__code=role_code).exists()
+
 
 class UserProfile(TimeStampedUUIDModel):
     """
@@ -121,3 +128,116 @@ class UserProfile(TimeStampedUUIDModel):
 
     def __str__(self):
         return f"Profile of {self.user.email}"
+
+
+class Role(TimeStampedUUIDModel):
+    """
+    RBAC Role model defining system operational roles.
+    Standard roles: STUDENT, CONTENT_EDITOR, SME, SUPPORT_AGENT, ADMIN, SUPERADMIN
+    """
+    name = models.CharField(max_length=100, verbose_name="Role Name")
+    code = models.CharField(
+        max_length=50,
+        unique=True,
+        db_index=True,
+        verbose_name="Role Code",
+    )
+    description = models.TextField(blank=True, null=True, verbose_name="Description")
+
+    class Meta:
+        db_table = "roles"
+        verbose_name = "Role"
+        verbose_name_plural = "Roles"
+        ordering = ["code"]
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
+class Permission(TimeStampedUUIDModel):
+    """
+    RBAC Permission model defining atomic system capability rights.
+    """
+    name = models.CharField(max_length=100, verbose_name="Permission Name")
+    code = models.CharField(
+        max_length=100,
+        unique=True,
+        db_index=True,
+        verbose_name="Permission Code",
+    )
+    description = models.TextField(blank=True, null=True, verbose_name="Description")
+
+    class Meta:
+        db_table = "permissions"
+        verbose_name = "Permission"
+        verbose_name_plural = "Permissions"
+        ordering = ["code"]
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
+class RolePermission(models.Model):
+    """
+    Junction model connecting permissions to RBAC roles.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    role = models.ForeignKey(
+        Role,
+        on_delete=models.CASCADE,
+        related_name="role_permissions",
+        verbose_name="Role",
+    )
+    permission = models.ForeignKey(
+        Permission,
+        on_delete=models.CASCADE,
+        related_name="permission_roles",
+        verbose_name="Permission",
+    )
+    created_at = models.DateTimeField(default=timezone.now, verbose_name="Created At")
+
+    class Meta:
+        db_table = "role_permissions"
+        verbose_name = "Role Permission"
+        verbose_name_plural = "Role Permissions"
+        unique_together = ("role", "permission")
+
+    def __str__(self):
+        return f"{self.role.code} -> {self.permission.code}"
+
+
+class UserRole(models.Model):
+    """
+    Junction model assigning RBAC roles to users.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user_roles",
+        verbose_name="User",
+    )
+    role = models.ForeignKey(
+        Role,
+        on_delete=models.CASCADE,
+        related_name="role_users",
+        verbose_name="Role",
+    )
+    assigned_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="assigned_user_roles",
+        verbose_name="Assigned By",
+    )
+    assigned_at = models.DateTimeField(default=timezone.now, verbose_name="Assigned At")
+
+    class Meta:
+        db_table = "user_roles"
+        verbose_name = "User Role"
+        verbose_name_plural = "User Roles"
+        unique_together = ("user", "role")
+
+    def __str__(self):
+        return f"{self.user.email} -> {self.role.code}"
