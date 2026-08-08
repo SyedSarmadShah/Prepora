@@ -68,6 +68,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = "User"
         verbose_name_plural = "Users"
         ordering = ["-date_joined"]
+        indexes = [
+            models.Index(fields=["email"], name="idx_users_email_lower"),
+        ]
 
     def __str__(self):
         return self.email
@@ -241,3 +244,64 @@ class UserRole(models.Model):
 
     def __str__(self):
         return f"{self.user.email} -> {self.role.code}"
+
+
+class RefreshToken(models.Model):
+    """
+    Secure JWT refresh token tracking and session revocation entity.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="refresh_tokens",
+        verbose_name="User",
+    )
+    token = models.CharField(max_length=512, unique=True, db_index=True, verbose_name="Token")
+    device_info = models.TextField(blank=True, null=True, verbose_name="Device Info")
+    ip_address = models.CharField(max_length=45, blank=True, null=True, verbose_name="IP Address")
+    is_revoked = models.BooleanField(default=False, verbose_name="Is Revoked")
+    expires_at = models.DateTimeField(verbose_name="Expires At")
+    created_at = models.DateTimeField(default=timezone.now, verbose_name="Created At")
+
+    class Meta:
+        db_table = "refresh_tokens"
+        verbose_name = "Refresh Token"
+        verbose_name_plural = "Refresh Tokens"
+        indexes = [
+            models.Index(fields=["user", "is_revoked", "expires_at"], name="idx_refresh_tokens_lookup"),
+        ]
+
+    def __str__(self):
+        return f"RefreshToken({self.user.email}, revoked={self.is_revoked})"
+
+
+class AuditLog(models.Model):
+    """
+    Immutable security and administrative audit trail entity.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="audit_logs",
+        verbose_name="Actor",
+    )
+    action = models.CharField(max_length=100, db_index=True, verbose_name="Action")
+    target_entity_type = models.CharField(max_length=100, blank=True, null=True, verbose_name="Target Entity Type")
+    target_entity_id = models.UUIDField(blank=True, null=True, verbose_name="Target Entity ID")
+    ip_address = models.CharField(max_length=45, blank=True, null=True, verbose_name="IP Address")
+    pre_change_state = models.JSONField(blank=True, null=True, verbose_name="Pre-Change State")
+    post_change_state = models.JSONField(blank=True, null=True, verbose_name="Post-Change State")
+    created_at = models.DateTimeField(default=timezone.now, db_index=True, verbose_name="Created At")
+
+    class Meta:
+        db_table = "audit_logs"
+        verbose_name = "Audit Log"
+        verbose_name_plural = "Audit Logs"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"AuditLog({self.action} by {self.actor.email if self.actor else 'System'})"

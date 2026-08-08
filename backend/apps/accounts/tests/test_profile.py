@@ -18,13 +18,10 @@ class UserProfileTests(APITestCase):
             first_name="Sarmad",
             last_name="Shah",
         )
-        self.profile, _ = UserProfile.objects.get_or_create(
-            user=self.user,
-            defaults={
-                "target_exam": "PMA Long Course",
-                "phone_number": "+923001234567",
-            },
-        )
+        self.profile, _ = UserProfile.objects.get_or_create(user=self.user)
+        self.profile.target_exam = "PMA Long Course"
+        self.profile.phone_number = "+923001234567"
+        self.profile.save()
 
         self.other_user = User.objects.create_user(
             email="other_user@prepora.com",
@@ -32,13 +29,10 @@ class UserProfileTests(APITestCase):
             first_name="Other",
             last_name="User",
         )
-        self.other_profile, _ = UserProfile.objects.get_or_create(
-            user=self.other_user,
-            defaults={
-                "target_exam": "PAF GDP Course",
-                "phone_number": "+923009876543",
-            },
-        )
+        self.other_profile, _ = UserProfile.objects.get_or_create(user=self.other_user)
+        self.other_profile.target_exam = "PAF GDP Course"
+        self.other_profile.phone_number = "+923009876543"
+        self.other_profile.save()
 
         self.token = RefreshToken.for_user(self.user).access_token
         self.auth_header = f"Bearer {self.token}"
