@@ -136,3 +136,78 @@ class UserLogoutSerializer(serializers.Serializer):
             token.blacklist()
         except (TokenError, InvalidToken):
             raise AuthenticationFailed("Token is invalid or expired.")
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """
+    Serializer for retrieving and updating student profile information.
+    Exposes safe user fields and user profile details while protecting sensitive attributes.
+    """
+
+    id = serializers.UUIDField(source="user.id", read_only=True)
+    email = serializers.EmailField(source="user.email", read_only=True)
+    first_name = serializers.CharField(
+        source="user.first_name",
+        max_length=150,
+        required=False,
+        allow_blank=True,
+    )
+    last_name = serializers.CharField(
+        source="user.last_name",
+        max_length=150,
+        required=False,
+        allow_blank=True,
+    )
+    is_verified = serializers.BooleanField(source="user.is_verified", read_only=True)
+    avatar = serializers.ImageField(required=False, allow_null=True)
+    phone_number = serializers.CharField(
+        max_length=20,
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+    )
+    target_exam = serializers.CharField(
+        max_length=100,
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+    )
+
+    class Meta:
+        model = UserProfile
+        fields = (
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "is_verified",
+            "target_exam",
+            "phone_number",
+            "avatar",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "email", "is_verified", "created_at", "updated_at")
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop("user", {})
+        first_name = user_data.get("first_name")
+        last_name = user_data.get("last_name")
+
+        user = instance.user
+        updated_user_fields = []
+        if first_name is not None:
+            user.first_name = first_name
+            updated_user_fields.append("first_name")
+        if last_name is not None:
+            user.last_name = last_name
+            updated_user_fields.append("last_name")
+
+        if updated_user_fields:
+            user.save(update_fields=updated_user_fields)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        return instance

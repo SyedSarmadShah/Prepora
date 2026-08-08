@@ -2,9 +2,11 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from apps.accounts.models import UserProfile
 from apps.accounts.serializers import (
     UserLoginSerializer,
     UserLogoutSerializer,
+    UserProfileSerializer,
     UserRegistrationSerializer,
 )
 
@@ -70,3 +72,20 @@ class UserLogoutView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    """
+    API view for retrieving and updating the authenticated user's profile.
+    Endpoints:
+    - GET /api/v1/users/me/profile/
+    - PATCH /api/v1/users/me/profile/
+    """
+
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ["get", "patch", "head", "options"]
+
+    def get_object(self):
+        profile, _ = UserProfile.objects.get_or_create(user=self.request.user)
+        return profile
