@@ -4,6 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -116,3 +117,22 @@ class UserLoginSerializer(serializers.Serializer):
                 "is_verified": user.is_verified,
             },
         }
+
+
+class UserLogoutSerializer(serializers.Serializer):
+    """
+    Serializer for logging out users by blacklisting their refresh token.
+    """
+
+    refresh = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        self.refresh_token = attrs.get("refresh")
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            token = RefreshToken(self.refresh_token)
+            token.blacklist()
+        except (TokenError, InvalidToken):
+            raise AuthenticationFailed("Token is invalid or expired.")

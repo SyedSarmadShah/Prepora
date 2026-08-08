@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # Third-Party Vendor Apps
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     # Prepora Local Domain Apps
     "apps.common.apps.CommonConfig",
