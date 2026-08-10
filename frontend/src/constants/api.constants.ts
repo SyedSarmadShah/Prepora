@@ -17,6 +17,9 @@ export const API_ENDPOINTS = {
     LOGOUT: '/auth/logout/',
     ME: '/auth/me/',
   },
+  USERS: {
+    PROFILE: '/users/me/profile/',
+  },
   EXAMS: {
     TRACKS: '/exam-tracks/',
     EXAMS: '/exams/',
