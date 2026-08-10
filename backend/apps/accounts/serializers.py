@@ -115,6 +115,7 @@ class UserLoginSerializer(serializers.Serializer):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "is_verified": user.is_verified,
+                "roles": list(user.roles.values_list("code", flat=True)),
             },
         }
 

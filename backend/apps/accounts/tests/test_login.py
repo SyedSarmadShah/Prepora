@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import AccessToken
 
+from apps.accounts.models import Role, UserRole
+
 User = get_user_model()
 
 
@@ -44,6 +46,24 @@ class UserLoginTests(APITestCase):
         self.assertEqual(user_info["first_name"], "Sarmad")
         self.assertEqual(user_info["last_name"], "Shah")
         self.assertEqual(user_info["is_verified"], False)
+        self.assertIn("roles", user_info)
+        self.assertIsInstance(user_info["roles"], list)
+
+    def test_login_returns_assigned_roles(self):
+        """
+        Verify that login response user metadata includes assigned RBAC role codes.
+        """
+        role = Role.objects.create(name="Student", code="STUDENT")
+        UserRole.objects.create(user=self.user, role=role)
+
+        payload = {
+            "email": "sarmad@prepora.com",
+            "password": self.password,
+        }
+        response = self.client.post(self.login_url, payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("roles", response.data["user"])
+        self.assertEqual(response.data["user"]["roles"], ["STUDENT"])
 
     def test_wrong_password_fails(self):
         """
