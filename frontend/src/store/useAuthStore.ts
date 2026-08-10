@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { User } from '../types/user.types';
-import { setAccessToken } from '../services/api.client';
+import { setAccessToken, setAuthHandlers } from '../services/api.client';
 
 export interface AuthState {
   user: User | null;
@@ -9,6 +9,7 @@ export interface AuthState {
   isAuthenticated: boolean;
 
   setAuth: (user: User, accessToken: string, refreshToken?: string) => void;
+  setTokens: (accessToken: string, refreshToken?: string) => void;
   clearAuth: () => void;
   hasRole: (roleCode: string) => boolean;
 }
@@ -29,6 +30,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     });
   },
 
+  setTokens: (accessToken: string, refreshToken?: string) => {
+    setAccessToken(accessToken);
+    set((state) => ({
+      accessToken,
+      refreshToken: refreshToken ?? state.refreshToken,
+    }));
+  },
+
   clearAuth: () => {
     setAccessToken(null);
     set({
@@ -47,3 +56,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     return user.roles.includes(roleCode);
   },
 }));
+
+// Register auth handlers with api.client to decouple store state and avoid circular imports
+setAuthHandlers({
+  getRefreshToken: () => useAuthStore.getState().refreshToken,
+  onTokensRefreshed: (access, refresh) => useAuthStore.getState().setTokens(access, refresh),
+  onAuthFailed: () => useAuthStore.getState().clearAuth(),
+});
