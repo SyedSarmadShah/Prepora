@@ -1,12 +1,13 @@
 import React from 'react';
-import { GuestLayout } from '../layouts/GuestLayout';
-import { HomePage } from '../pages/public/HomePage';
+import { BrowserRouter } from 'react-router-dom';
+import { AppRoutes } from '../routes/AppRoutes';
 
 export const App: React.FC = () => {
   return (
-    <GuestLayout>
-      <HomePage />
-    </GuestLayout>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 };
+
 export default App;
