@@ -17,7 +17,7 @@ interface HealthResponse {
 }
 
 export const BackendHealthStatus: React.FC = () => {
-  const [healthState, setHealthState] = useState<'idle' | 'loading' | 'healthy' | 'error'>('idle');
+  const [healthState, setHealthState] = useState<'idle' | 'loading' | 'healthy' | 'error'>('loading');
   const [healthData, setHealthData] = useState<HealthResponse | null>(null);
   const [latency, setLatency] = useState<number | null>(null);
   const [lastChecked, setLastChecked] = useState<string | null>(null);
@@ -64,8 +64,48 @@ export const BackendHealthStatus: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    checkHealth();
-  }, [checkHealth]);
+    let ignore = false;
+    const fetchHealth = async () => {
+      const startTime = performance.now();
+      try {
+        const targetUrl = `${API_CONFIG.BASE_URL.replace(/\/v1\/?$/, '')}/health/`;
+        const response = await axios.get<HealthResponse>(targetUrl, {
+          timeout: 5000,
+          headers: { 'Accept': 'application/json' },
+        });
+
+        if (ignore) return;
+        const endTime = performance.now();
+        setLatency(Math.round(endTime - startTime));
+        setHealthData(response.data);
+        setLastChecked(new Date().toLocaleTimeString());
+
+        if (response.data && response.data.status === 'healthy') {
+          setHealthState('healthy');
+        } else {
+          setHealthState('error');
+          setErrorMessage(`Unexpected status: ${JSON.stringify(response.data)}`);
+        }
+      } catch (err: unknown) {
+        if (ignore) return;
+        const endTime = performance.now();
+        setLatency(Math.round(endTime - performance.now()));
+        setHealthState('error');
+        setLastChecked(new Date().toLocaleTimeString());
+
+        if (axios.isAxiosError(err)) {
+          setErrorMessage(err.message || 'Failed to connect to backend server.');
+        } else {
+          setErrorMessage('An unexpected network error occurred.');
+        }
+      }
+    };
+
+    fetchHealth();
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <div className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border border-slate-800/80 shadow-2xl relative overflow-hidden">
