@@ -1,5 +1,6 @@
 import React from 'react';
-import { Shield, BookOpen, Award, CheckCircle2, ChevronRight } from 'lucide-react';
+import { BookOpen, Award, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Logo } from '../brand/Logo';
 
 export const Header: React.FC = () => {
   return (
@@ -7,18 +8,8 @@ export const Header: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo & Brand */}
-          <div className="flex items-center space-x-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 shadow-lg shadow-brand-500/25">
-              <Shield className="h-5 w-5 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-heading text-xl font-bold tracking-tight text-white">
-                PREPORA
-              </span>
-              <span className="text-[10px] font-semibold tracking-widest text-brand-400 uppercase">
-                Armed Forces Prep
-              </span>
-            </div>
+          <div className="flex items-center">
+            <Logo size="md" href="/" />
           </div>
 
           {/* Nav Items Placeholder */}

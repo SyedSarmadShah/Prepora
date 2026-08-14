@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield } from 'lucide-react';
+import { Logo } from '../brand/Logo';
 
 export const Footer: React.FC = () => {
   return (
@@ -8,11 +8,8 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Col */}
           <div className="space-y-4 md:col-span-1">
-            <div className="flex items-center space-x-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600">
-                <Shield className="h-4 w-4 text-white" />
-              </div>
-              <span className="font-heading text-lg font-bold text-white">PREPORA</span>
+            <div className="flex items-center">
+              <Logo size="sm" href="/" />
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
               Production-ready test preparation SaaS platform for Pakistan Armed Forces (PMA, PAF, Navy, ISSB, ASF) and FPSC examinations.
